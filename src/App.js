@@ -6,16 +6,9 @@ import MovieCard from './components/MovieCard';
 
 const API_URL = 'http://www.omdbapi.com?apikey=c032e2d7';
 
-const movie1 = {
-    "Title": "Batman Begins",
-    "Year": "2005",
-    "imdbID": "tt0372784",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
-};
-
 const App = () => {
     const [movies, setMovies] = useState([]);
+    const [searchText, setSearchText] = useState('');
 
     const searchMovies = async (title) => {
         const response = await fetch(`${API_URL}&s=${title}`);
@@ -35,13 +28,13 @@ const App = () => {
             <div className='search'>
                 <input 
                     placeholder='Search for movies'
-                    value='Superman'
-                    onChange={() => {}}
+                    value={searchText}
+                    onChange={(event) => setSearchText(event.target.value)}
                 />
                 <img 
                     src={SearchIcon}
                     alt='search'
-                    onClick={() => {}}
+                    onClick={() => searchMovies(searchText)}
                 />
             </div>
 
@@ -49,7 +42,7 @@ const App = () => {
                 {
                     movies?.length > 0 ?
                     (
-                        movies?.map((movie) => <MovieCard movie={movie}/>) 
+                        movies?.map((movie) => <MovieCard movie={movie} />) 
                     ) :
                     (
                         <div className='empty'>
